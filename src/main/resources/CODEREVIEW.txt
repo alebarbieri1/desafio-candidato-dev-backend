@@ -1,0 +1,42 @@
+1. Code Review
+
+- A classe EntityFactory foi anotada com @Component para ser detectada/gerenciada pelo Spring e poder ser injetada em outra classe, 
+  porém não está sendo utilizada em nenhum ponto da aplicação. Além disso, o nome da mesma não é apropriado de acordo com suas responsabilidades;
+- A anotação @Component na classe EntityFactory é muito genérica, a classe poderia ser anotada como @Service;
+- Os pacotes não estão organizados corretamente (não segue a hierarquia);
+- Classe com nome no plural (ProcessRuleServices). A mesma está instanciando um componente do Spring. 
+  O correto seria utilizar a injeção de dependência do Spring declarando o atributo na classe e 
+  utilizando a anotação @Autowired para que o Spring realize esse controle;
+- Pojo (PojoExample) sem nenhum atributo - não serve para nada;
+- PojoExample poderia ser anotado como @Entity, caso represente uma entidade no banco de dados;
+- Nome de método com erro de digitação - callExternarRestService
+- Nome de variávies iniciando com letra maiúscula (não segue o padrão de iniciar o nome da variável com letra minúscula) - CityName, StateName e CountryName;
+- Nome de variáveis não intuitivo - code1 e code2;
+- O projeto possui o Eureka como dependência mesmo sem possuir um Eureka Server em execução, ocasionando erro na inicialização.
+
+Obs: Criei um Eureka Server (https://github.com/alebarbieri1/eureka-naming-server) e inicializei o servidor antes de inicializar a aplicação, dessa forma, a mesma consegue se registrar no Eureka.
+
+2. Healthcheck
+
+O Spring já fornece uma biblioteca chamada Actuator que provê alguns endpoints para monitorar o serviço.
+O endpoint padrão para verificar se o serviço está disponível é GET /actuator/health.
+Através da documentação abaixo, ajustei para o serviço devolver o status em GET /info.
+
+Referência:
+https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-monitoring.html#production-ready-customizing-management-server-context-path
+
+3. Implementar serviços de consulta de CEP
+
+Criei os endpoints para consulta de CEP e utilizei o Feign para facilitar a comunicação com o serviço REST disponibilizado.
+Foi utilizado também o Ribbon para fazer o balanceamento de carga entre os endpoints (nesse caso tem somente 1, mas poderia ter N). 
+Como o serviço que está sendo consumindo pelo microsserviço não está se registrando no Eureka, desabilitei o
+Eureka com o Ribbon, utilizando somente os hosts definidos no arquivo de configuração.
+
+
+4. Utilizei a anotação @Cachable no método que retorna o CEP encontrado. O Spring armazena os retornos em memória e devolve o
+mesmo objeto caso seja feita a mesma requisição novamente. Inclui um teste unitário para realizar essa validação.
+
+
+5. Foi adicionado nos arquivos de configuração os parâmetros do Eureka. 
+Criei 2 profiles (dev e prod). Configurei tempos diferentes em cada profile para que o 
+client avise o eureka server que está ativo. As configurações no arquivo application.properties servem para ambos os profiles.
