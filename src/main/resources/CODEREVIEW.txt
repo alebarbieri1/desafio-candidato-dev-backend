@@ -32,6 +32,16 @@ Foi utilizado também o Ribbon para fazer o balanceamento de carga entre os endp
 Como o serviço que está sendo consumindo pelo microsserviço não está se registrando no Eureka, desabilitei o
 Eureka com o Ribbon, utilizando somente os hosts definidos no arquivo de configuração.
 
+Exemplos de requisição para teste:
+
+GET 
+http://localhost:8002/cepdetailsapp/cep/03312052
+----------------------------------------------------------------------------------
+POST
+http://localhost:8002/cepdetailsapp/ceps
+
+Body - application/json
+["03312052", "03312052"]
 
 4. Implementação de Cache
 
