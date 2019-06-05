@@ -33,10 +33,14 @@ Como o serviço que está sendo consumindo pelo microsserviço não está se reg
 Eureka com o Ribbon, utilizando somente os hosts definidos no arquivo de configuração.
 
 
-4. Utilizei a anotação @Cachable no método que retorna o CEP encontrado. O Spring armazena os retornos em memória e devolve o
+4. Implementação de Cache
+
+Utilizei a anotação @Cachable no método que retorna o CEP encontrado. O Spring armazena os retornos em memória e devolve o
 mesmo objeto caso seja feita a mesma requisição novamente. Inclui um teste unitário para realizar essa validação.
 
 
-5. Foi adicionado nos arquivos de configuração os parâmetros do Eureka. 
+5. Service Discovery e Perfil
+
+Foi adicionado nos arquivos de configuração os parâmetros do Eureka. 
 Criei 2 profiles (dev e prod). Configurei tempos diferentes em cada profile para que o 
 client avise o eureka server que está ativo. As configurações no arquivo application.properties servem para ambos os profiles.
