@@ -44,3 +44,5 @@ mesmo objeto caso seja feita a mesma requisição novamente. Inclui um teste uni
 Foi adicionado nos arquivos de configuração os parâmetros do Eureka. 
 Criei 2 profiles (dev e prod). Configurei tempos diferentes em cada profile para que o 
 client avise o eureka server que está ativo. As configurações no arquivo application.properties servem para ambos os profiles.
+
+Obs: A profile ativa é a dev.
